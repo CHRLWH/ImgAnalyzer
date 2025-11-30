@@ -20,7 +20,7 @@ const TitleScreen = () => {
 
   const backgroundColor = backgroundColorValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#D32F2F', '#C62828'], // Slightly different shades for visible animation
+    outputRange: ['#f60101ff', '#ff0000ff'], // Slightly different shades for visible animation
   });
 
   const handlePressIn = () => {

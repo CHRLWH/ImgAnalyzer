@@ -9,7 +9,7 @@ const NavbarGallery = () => {
 
   return (
     <SafeAreaView style={styles.contenedor}>
-      <AnimatedButton onPress={() => navigation.navigate('Galeria')}>
+      <AnimatedButton onPress={() => navigation.navigate('Gallery')}>
         <Icon name="image" size={45} color="#FFF" />
       </AnimatedButton>
     </SafeAreaView>
