@@ -4,4 +4,7 @@ Flask-Marshmallow
 marshmallow-sqlalchemy
 Flask-Cors
 Werkzeug
-mysqlclient
+pymysql
+deep-translator
+azure-ai-vision-imageanalysis
+azure-core
