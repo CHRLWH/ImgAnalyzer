@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import LoadingOverlay from "../../pantallaDeCarga/loadingScreen";
 import AnimatedButton from '../../buttons/AnimatedButton';
+import { API_URL } from '../../constants/config';
 
 const NavbarCamera = () => {
   const [loading, setLoading] = useState(false);
@@ -28,8 +29,8 @@ const NavbarCamera = () => {
 
         const location = await Location.getCurrentPositionAsync({});
         const coords = {
-          latitud: location.coords.latitude,
-          longitud: location.coords.longitude,
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
         };
 
         await uploadImageToDB(photoUri, coords);
@@ -39,7 +40,7 @@ const NavbarCamera = () => {
     }
   };
 
-  const uploadImageToDB = async (uri, { latitud, longitud }) => {
+  const uploadImageToDB = async (uri, { latitude, longitude }) => {
     try {
       setLoading(true);
 
@@ -50,10 +51,10 @@ const NavbarCamera = () => {
         type: "image/jpeg",
       });
 
-      formData.append("latitud", latitud.toString());
-      formData.append("longitud", longitud.toString());
+      formData.append("latitude", latitude.toString());
+      formData.append("longitude", longitude.toString());
 
-      const response = await fetch("http://192.168.1.62:3000/images/uploadImage", {
+      const response = await fetch(`${API_URL}/images/uploadImage`, {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
