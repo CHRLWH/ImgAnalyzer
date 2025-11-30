@@ -53,7 +53,7 @@ const NavbarCamera = () => {
       formData.append("latitud", latitud.toString());
       formData.append("longitud", longitud.toString());
 
-      const response = await fetch("http://192.168.1.62:3000/upload", {
+      const response = await fetch("http://192.168.1.62:3000/images/uploadImage", {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",

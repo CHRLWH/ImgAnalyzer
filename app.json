@@ -16,8 +16,10 @@
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Esta app necesita acceso a tu galería para seleccionar imágenes o videos.",
         "NSCameraUsageDescription": "Esta app necesita acceso a la cámara para tomar fotos.",
-        "NSPhotoLibraryAddUsageDescription": "Esta app necesita guardar imágenes en tu galería."
-      }
+        "NSPhotoLibraryAddUsageDescription": "Esta app necesita guardar imágenes en tu galería.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.ImgAnalyzer"
     },
     "android": {
       "permissions": [
@@ -31,7 +33,8 @@
         "android.permission.ACCESS_BACKGROUND_LOCATION",
         "android.permission.FOREGROUND_SERVICE",
         "android.permission.FOREGROUND_SERVICE_LOCATION"
-      ]
+      ],
+      "package": "com.ImgAnalyzer"
     },
     "web": {
       "favicon": "./assets/logoCimpa.png"

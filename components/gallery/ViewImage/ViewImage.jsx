@@ -1,54 +1,57 @@
 import React from 'react';
-import { Image, StyleSheet, View, Text, ScrollView } from 'react-native';
-import Navbar from '../../navbar/Navbar';
+import { Image, StyleSheet, View, Text, ScrollView, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Icon } from 'react-native-elements';
+import Navbar from '../../navbar/Navbar';
 import AnimatedButton from '../../buttons/AnimatedButton';
+import { API_URL } from '../../constants/config';
 
 const ViewImage = ({ route, navigation }) => {
   const { image } = route.params;
-  const testImage = `http://192.168.1.62:3000/imgs/${image.image}`; 
+  const imageUrl = `${API_URL}/images/getVisualizableImages/${image.image}`;
 
-  const latitude = parseFloat(image.latitud);
-  const longitude = parseFloat(image.longitud);
+  const latitude = parseFloat(image.latitude); // Changed from latitud
+  const longitude = parseFloat(image.longitude); // Changed from longitud
 
   const isValidCoordinate = (val) => typeof val === 'number' && !isNaN(val);
   const showMap = isValidCoordinate(latitude) && isValidCoordinate(longitude);
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://192.168.1.62:3000/delete/${image.id}/`, {
+      const response = await fetch(`${API_URL}/images/delete/${image.id}/`, {
         method: 'DELETE',
       });
 
       if (response.ok) {
+        Alert.alert('Success', 'Image deleted successfully');
         navigation.navigate('Home');
       } else {
-        navigation.navigate('Home');
+        Alert.alert('Error', 'Failed to delete image');
       }
     } catch (error) {
       console.error('Error:', error);
+      Alert.alert('Error', 'An error occurred while deleting the image');
     }
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
-        <Image source={{ uri: testImage }} style={styles.image} />
-  
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <Image source={{ uri: imageUrl }} style={styles.image} />
+
         <View style={styles.infoContainer}>
-          <Text style={styles.title}>{image.nombre}</Text>
-          <Text style={styles.description}>{image.descripcion}</Text>
-          <Text style={styles.date}>{image.fecha}</Text>
+          <Text style={styles.title}>{image.name}</Text>
+          <Text style={styles.description}>{image.description}</Text>
+          <Text style={styles.date}>{image.date}</Text>
           <Text style={styles.points}>
-            <Icon name="paid" /> {image.valor}
+            <Icon name="paid" /> {image.value}
           </Text>
         </View>
-  
-        <Text style={{ fontSize: 20, textAlign: 'center', marginBottom: 5 }}>
-          {showMap ? 'Ubicacion 🗺️' : 'Ubicación no disponible'}
+
+        <Text style={styles.locationTitle}>
+          {showMap ? 'Location 🗺️' : 'Location not available'}
         </Text>
-  
+
         {showMap && (
           <View style={styles.mapContainer}>
             <MapView
@@ -62,20 +65,20 @@ const ViewImage = ({ route, navigation }) => {
             >
               <Marker
                 coordinate={{ latitude, longitude }}
-                title={image.nombre}
-                description={image.descripcion}
+                title={image.name}
+                description={image.description}
               />
             </MapView>
           </View>
         )}
-  
+
         <View style={styles.actions}>
-          <AnimatedButton style={styles.boton} onPress={handleDelete}>
-            <Text style={styles.botonTexto}>Borrar Imagen</Text>
+          <AnimatedButton style={styles.button} onPress={handleDelete}>
+            <Text style={styles.buttonText}>Delete Image</Text>
           </AnimatedButton>
         </View>
       </ScrollView>
-  
+
       <View style={styles.footer}>
         <Navbar />
       </View>
@@ -86,6 +89,9 @@ const ViewImage = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 150,
   },
   image: {
     width: 300,
@@ -99,7 +105,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 5,
-    boxShadow: '10px 10px rgb(243, 175, 175)',
+    // Fixed boxShadow for RN
+    shadowColor: 'rgb(243, 175, 175)',
+    shadowOffset: { width: 10, height: 10 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
   },
   infoContainer: {
     alignItems: 'center',
@@ -124,6 +134,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
   },
+  locationTitle: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 5,
+  },
   mapContainer: {
     width: '80%',
     height: 200,
@@ -131,7 +146,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginVertical: 20,
     alignSelf: 'center',
-    boxShadow: '0px 10px rgb(255, 238, 0)',
+    shadowColor: 'rgb(255, 238, 0)',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 5,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
@@ -139,7 +158,7 @@ const styles = StyleSheet.create({
   actions: {
     alignItems: 'center',
   },
-  boton: {
+  button: {
     backgroundColor: '#D32F2F',
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -149,9 +168,12 @@ const styles = StyleSheet.create({
     width: 200,
     elevation: 4,
     marginBottom: 150,
-    boxShadow: '0px 5px rgb(255, 166, 138)',
+    shadowColor: 'rgb(255, 166, 138)',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
   },
-  botonTexto: {
+  buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,

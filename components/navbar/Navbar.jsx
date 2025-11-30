@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import NavbarHome from './navbarHome/NavbarHome';
 import NavbarCamera from './navbarCam/NavBarCamera';
 import NavbarGallery from './navbarGallery/NavbarGallery';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Navbar = () => {
   const [activeTab, setActiveTab] = useState('home');
   const navigation = useNavigation();
 
+  const handleNavigation = (tab, route) => {
+    setActiveTab(tab);
+    if (route) {
+      navigation.navigate(route);
+    }
+  };
+
   return (
     <GestureHandlerRootView>
       <SafeAreaView style={styles.container}>
-        <View style={styles.contenedorNavegacion}>
+        <View style={styles.navContainer}>
           <NavbarHome
             isActive={activeTab === 'home'}
-            onPress={() => {
-              setActiveTab('home');
-              navigation.navigate('Home');
-            }}
+            onPress={() => handleNavigation('home', 'Home')}
           />
           <NavbarCamera
             isActive={activeTab === 'camera'}
-            onPress={() => setActiveTab('camera')}
+            onPress={() => handleNavigation('camera', 'Camera')}
           />
           <NavbarGallery
             isActive={activeTab === 'gallery'}
-            onPress={() => {
-              setActiveTab('gallery');
-              navigation.navigate('Galeria');
-            }}
+            onPress={() => handleNavigation('gallery', 'Gallery')}
           />
         </View>
       </SafeAreaView>
@@ -39,7 +40,7 @@ const Navbar = () => {
 };
 
 const styles = StyleSheet.create({
-  contenedorNavegacion: {
+  navContainer: {
     alignSelf: 'center',
     width: '90%',
     height: 100,
@@ -50,7 +51,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginHorizontal: '4%',
     shadowColor: '#000',
-    boxShadow: '0px 10px rgb(243, 175, 175)',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2, // Adjusted for better look
+    shadowRadius: 5,
+    elevation: 5,
   },
   container: {
     marginHorizontal: '3%',

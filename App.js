@@ -1,13 +1,13 @@
-import React from 'react'; 
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Index from './components/titleScreen/TitleScreen';  
-import Home from './components/home/Home';
-import Galeria from './components/gallery/Galeria';  
-import Camera from './components/navbar/navbarCam/NavBarCamera';
-import ViewImage from './components/gallery/ViewImage/ViewImage';  
-
 import 'react-native-gesture-handler';
+
+import Index from './components/titleScreen/TitleScreen';
+import Home from './components/home/Home';
+import Gallery from './components/gallery/Gallery';
+import Camera from './components/navbar/navbarCam/NavBarCamera';
+import ViewImage from './components/gallery/ViewImage/ViewImage';
 
 const Stack = createStackNavigator();
 
@@ -48,7 +48,7 @@ const App = () => {
       >
         <Stack.Screen name="Index" component={Index} />
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Galeria" component={Galeria} />
+        <Stack.Screen name="Gallery" component={Gallery} />
         <Stack.Screen name="Camera" component={Camera} />
         <Stack.Screen name="ViewImage" component={ViewImage} />
       </Stack.Navigator>
